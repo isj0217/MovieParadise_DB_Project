@@ -88,9 +88,9 @@ try {
         case "getCurrentlyHeld":
             http_response_code(200);
 
-            $accountNum = $vars["accountNum"];
+            $account_num = $vars["account_num"];
 
-            $res->result = getCurrentlyHeld($vars["accountNum"]);
+            $res->result = getCurrentlyHeld($vars["account_num"]);
 
             $res->isSuccess = TRUE;
             $res->code = 100;
@@ -103,9 +103,9 @@ try {
         case "getMovieQueue":
             http_response_code(200);
 
-            $accountNum = $vars["accountNum"];
+            $accountNum = $vars["account_num"];
 
-            $res->result = getMovieQueue($vars["accountNum"]);
+            $res->result = getMovieQueue($vars["account_num"]);
 
             $res->isSuccess = TRUE;
             $res->code = 100;
@@ -119,7 +119,7 @@ try {
         case "getAccountType":
             http_response_code(200);
 
-            $res->result = getAccountType($vars["accountNum"]);
+            $res->result = getAccountType($vars["account_num"]);
 
             $res->isSuccess = TRUE;
             $res->code = 100;

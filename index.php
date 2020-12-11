@@ -25,13 +25,13 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/signin', ['IndexController', 'signin']);
 
     // 3. 현재 빌린 상태인 영화 제목 조회
-    $r->addRoute('GET', '/currently_held/{accountNum}', ['IndexController', 'getCurrentlyHeld']);
+    $r->addRoute('GET', '/currently_held/{account_num}', ['IndexController', 'getCurrentlyHeld']);
 
     // 4. 내 무비큐 조회
-    $r->addRoute('GET', '/movie_queue/{accountNum}', ['IndexController', 'getMovieQueue']);
+    $r->addRoute('GET', '/movie_queue/{account_num}', ['IndexController', 'getMovieQueue']);
 
     // 5. Account type 조회 (L인지 U인지)
-    $r->addRoute('GET', '/account_type/{accountNum}', ['IndexController', 'getAccountType']);
+    $r->addRoute('GET', '/account_type/{account_num}', ['IndexController', 'getAccountType']);
 
     // 6. 장르별로 대여 가능한 영화 조회
     $r->addRoute('GET', '/available', ['IndexController', 'getAvailableGenre']);

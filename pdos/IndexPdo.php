@@ -50,7 +50,7 @@ function getAccountNumFromId($id)
 
 
 // 3. 현재 빌린 상태인 영화 제목 조회
-function getCurrentlyHeld($accountNum)
+function getCurrentlyHeld($account_num)
 {
     $pdo = pdoSqlConnect();
     $query = "select movieName
@@ -63,7 +63,7 @@ where movieID in (
       and returnDate is null);";
 
     $st = $pdo->prepare($query);
-    $st->execute([$accountNum]);
+    $st->execute([$account_num]);
 
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
@@ -76,7 +76,7 @@ where movieID in (
 
 
 // 4. 내 무비큐 조회
-function getMovieQueue($accountNum)
+function getMovieQueue($account_num)
 {
     $pdo = pdoSqlConnect();
     $query = "select movieName from MOVIE where movieID in(
@@ -89,7 +89,7 @@ where customerID in (
   and isRented = 0);";
 
     $st = $pdo->prepare($query);
-    $st->execute([$accountNum]);
+    $st->execute([$account_num]);
 
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
@@ -102,13 +102,13 @@ where customerID in (
 
 
 // 5. Account type 조회 (L인지 U인지)
-function getAccountType($accountNum)
+function getAccountType($account_num)
 {
     $pdo = pdoSqlConnect();
     $query = "select accountType as accountType from CUSTOMER where accountNum = ?;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$accountNum]);
+    $st->execute([$account_num]);
 
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
@@ -116,7 +116,7 @@ function getAccountType($accountNum)
     $st = null;
     $pdo = null;
 
-    return $res;
+    return $res[0];
 }
 
 
@@ -124,7 +124,7 @@ function getAccountType($accountNum)
 function getAvailableGenre($genre)
 {
     $pdo = pdoSqlConnect();
-    $query = "select movieName from MOVIE where movieType = ?;";
+    $query = "select movieName from MOVIE where movieType = ? and numCopies > 0;";
 
     $st = $pdo->prepare($query);
     $st->execute([$genre]);
