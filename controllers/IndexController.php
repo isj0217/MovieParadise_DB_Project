@@ -45,7 +45,7 @@ try {
 
                 $res->isSuccess = FALSE;
                 $res->code = 200;
-                $res->message = "이미 가입된 회원입니다";
+                $res->message = "Customer ID already exist";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -54,7 +54,7 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "회원가입 성공";
+            $res->message = "Sign Up Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -70,7 +70,7 @@ try {
 
                 $res->isSuccess = FALSE;
                 $res->code = 200;
-                $res->message = "존재하지 않는 회원입니다.";
+                $res->message = "Customer ID does not exist";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -79,7 +79,7 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "로그인 성공";
+            $res->message = "Sign In Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -94,7 +94,7 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "현재 빌린 상태인 영화제목 조회 성공";
+            $res->message = "Get currently held movie list Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -109,7 +109,7 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "내 무비큐 조회 성공";
+            $res->message = "Get my movie queue Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -123,7 +123,7 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "account type 조회 성공";
+            $res->message = "Get my account type Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -137,7 +137,7 @@ try {
             $res->result = getAvailableGenre($genre);
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "장르별 남은 영화 조회 성공";
+            $res->message = "Get movies by genre Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -152,7 +152,7 @@ try {
             $res->result = searchMovieName($query_string);
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "영화 검색 성공";
+            $res->message = "Search Movies by Title Success";
 
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
@@ -167,13 +167,13 @@ try {
             $res->result = searchMovieNameFromActor($query_string);
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "배우 이름으로 영화 검색 성공";
+            $res->message = "Search Movies by Actor Success";
 
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
 
-        // 10. 영화에 평점 매기기
+        // 9. 영화에 평점 매기기
         case "postRating":
             http_response_code(200);
 
@@ -186,7 +186,7 @@ try {
 
                 $res->isSuccess = FALSE;
                 $res->code = 200;
-                $res->message = "이미 평점을 매긴 영화입니다";
+                $res->message = "Already rated this movie";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -195,9 +195,40 @@ try {
 
             $res->isSuccess = TRUE;
             $res->code = 100;
-            $res->message = "평점 매기기 성공";
+            $res->message = "Rating the movie Success";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
+
+
+        // 추가 1. 내가 본(빌렸다가 반납한) 영화 조회
+        case "getWatched":
+            http_response_code(200);
+
+            $res->result = getWatched($vars["account_num"]);
+
+            $res->isSuccess = TRUE;
+            $res->code = 100;
+            $res->message = "Get movies I watched Success";
+            echo json_encode($res, JSON_NUMERIC_CHECK);
+            break;
+
+
+        // 추가 2. 영화 이름으로 movieID 조회
+        case "getMovieID":
+            http_response_code(200);
+
+            $query_string = $_GET['query'];
+
+            $res->result = getMovieID($query_string);
+            $res->isSuccess = TRUE;
+            $res->code = 100;
+            $res->message = "Search MovieID by movie title Success";
+
+            echo json_encode($res, JSON_NUMERIC_CHECK);
+            break;
+
+
+
 
 
         // 이 아래는 테스트입니다.

@@ -42,10 +42,16 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // 8. 배우이름으로 영화 제목 검색
     $r->addRoute('GET', '/search_from_actor', ['IndexController', 'searchMovieNameFromActor']);
 
-    // 9. 베스트셀러 -> 생략!!
-
-    // 10. 영화에 평점 매기기
+    // 9. 영화에 평점 매기기
     $r->addRoute('POST', '/rating', ['IndexController', 'postRating']);
+
+    // 추가 1. 내가 본(빌렸다가 반납한) 영화 조회
+    $r->addRoute('GET', '/watched/{account_num}', ['IndexController', 'getWatched']);
+
+    // 추가 2. 영화 이름으로 movieID 조회
+    $r->addRoute('GET', '/movie_id', ['IndexController', 'getMovieID']);
+
+
 
 
     // 이 아래는 테스트입니다.

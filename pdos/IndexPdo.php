@@ -181,7 +181,7 @@ select actorID from ACTOR where actorName like concat('%', ?, '%')));";
 }
 
 
-// 10. 영화에 평점 매기기
+// 9. 영화에 평점 매기기
 function postRating($customerID, $movieID, $rating)
 {
     $pdo = pdoSqlConnect();
@@ -210,6 +210,46 @@ function isDuplicatedRating($customerID, $movieID)
     return intval($res[0]['exist']);
 }
 
+
+// 추가 1. 내가 본(빌렸다가 반납한) 영화 조회
+function getWatched($account_num)
+{
+    $pdo = pdoSqlConnect();
+    $query = "select movieName from MOVIE where movieID in(
+select distinct movieID from ORDERS where returnDate is not null and customerID in(
+select customerID from CUSTOMER where accountNum = ?));";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$account_num]);
+
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return $res;
+}
+
+
+
+// 추가 2. 영화 이름으로 movieID 조회
+function getMovieID($query_string)
+{
+    $pdo = pdoSqlConnect();
+    $query = "select movieID from MOVIE where movieName = ?;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$query_string]);
+
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return $res[0];
+}
 
 
 // 이 아래는 테스트입니다.
